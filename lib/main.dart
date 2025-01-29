@@ -41,6 +41,15 @@ class _MyToDoState extends State<MyToDo> {
     }
   }
 
+  
+
+  Widget deleteButton() {
+    return IconButton(
+      onPressed: (){widgets.removeAt(2);
+    }
+    , icon: Icon(Icons.close));
+  }
+
   Widget buildTaskRow(String taskText) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -52,6 +61,7 @@ class _MyToDoState extends State<MyToDo> {
             padding: const EdgeInsets.all(20.0),
             child: Text(taskText),
           ),
+          deleteButton(),
         ],
       ),
     );
@@ -95,7 +105,7 @@ class _MyToDoState extends State<MyToDo> {
       ),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
