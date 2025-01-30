@@ -40,15 +40,7 @@ class _MyToDoState extends State<MyToDo> {
       });
     }
   }
-
   
-
-  Widget deleteButton() {
-    return IconButton(
-      onPressed: (){widgets.removeAt(2);
-    }
-    , icon: Icon(Icons.close));
-  }
 
   Widget buildTaskRow(String taskText) {
     return Padding(
@@ -61,7 +53,6 @@ class _MyToDoState extends State<MyToDo> {
             padding: const EdgeInsets.all(20.0),
             child: Text(taskText),
           ),
-          deleteButton(),
         ],
       ),
     );
@@ -94,17 +85,6 @@ class _MyToDoState extends State<MyToDo> {
       ),
     );
   }
-
-  Widget buildTaskList() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: widgets.length,
-        itemBuilder: (context, index) {
-          return widgets[index];
-        },
-      ),
-    );
-  }
   
   @override
   Widget build(BuildContext context) {
@@ -113,9 +93,50 @@ class _MyToDoState extends State<MyToDo> {
       body: Column(
         children: [
           buildInputField(),
-          buildTaskList(),
+          buildTaskList(widgets: widgets),
         ],
       ),
+    );
+  }
+}
+
+class buildTaskList extends StatefulWidget {
+  const buildTaskList({
+    super.key,
+    required this.widgets,
+  });
+
+  final List<Widget> widgets;
+
+  @override
+  State<buildTaskList> createState() => _buildTaskListState();
+}
+
+class _buildTaskListState extends State<buildTaskList> {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: widget.widgets.length,
+        itemBuilder: (context, index) {
+          // return widgets[index];
+          return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  widget.widgets[index],
+                  IconButton(
+                    onPressed: () {
+                      setState(() { //setstate쓰니까 잘 작동함, 안쓸때는  RangeError: Value not in range: 1 라고 떴음, 따로 때서 stateful widget으로 만들었더니 작동했음
+                        widget.widgets.removeAt(index);
+                      });
+                    
+                    },
+                    icon: const Icon(Icons.delete),
+                  ),
+                ],
+              );
+        },
+    )
     );
   }
 }
